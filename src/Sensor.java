@@ -16,11 +16,20 @@ public class Sensor implements Runnable{
     public Sensor(String one) {
     }
 
+    public Sensor() {
+    }
 
+
+    public void distance(){
+        long startTime= System.nanoTime();
+        long endTime= System.nanoTime();
+        Distance = ((((endTime-startTime)/1e3)/2) / 29.1);
+        System.out.println("Distance :"+ Distance +" cm"); //Printing out the distance in cm
+
+    }
     public void run() {
         sensorTriggerPin =  gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04); // Trigger pin as OUTPUT
         sensorEchoPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_17,PinPullResistance.PULL_DOWN); // Echo pin as INPUT
-
 
         while(true){
             try {
@@ -37,10 +46,10 @@ public class Sensor implements Runnable{
                 }
                 long endTime= System.nanoTime(); // Store the echo pin HIGH end time to calculate ECHO pin HIGH time.
 
+                //Calculate the distance to an object
                 Distance = ((((endTime-startTime)/1e3)/2) / 29.1);
                 System.out.println("Distance :"+ Distance +" cm"); //Printing out the distance in cm
                 Thread.sleep(1000);
-
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
